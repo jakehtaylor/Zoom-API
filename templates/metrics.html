@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container" id="att_table" style="height:600px;overflow:auto;">
+            <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-primary"> 
+                <a class="navbar-brand" href="#"> Meeting Participants </a>
+                <ul class="navbar-nav ms-auto" style="color:antiquewhite"> 
+                    <li class="nav-item"> 
+                        <a class="nav-link active" href="#"> 
+                        Joined
+                        </a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link active" href="#"> 
+                        Left
+                        </a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link active" href="#"> 
+                        Time
+                        </a> 
+                    </li> 
+                </ul> 
+            </nav> 
+        {{ metrics.tables[0] | safe }}
+    </div>
+
+    <input type = "hidden" id = "times" name = "variable" value = "{{metrics.graphs[0][0]|safe}}">
+    <input type = "hidden" id = "active" name = "variable" value = "{{metrics.graphs[0][1]|safe}}" >
+    <input type = "hidden" id = "cumulative" name = "variable" value = "{{metrics.graphs[1][1]|safe}}" >
+    <input type = "hidden" id = "stats" name = "variable" value = "{{metrics.stats|safe}}" >
+
+    <div class="container">
+        <div class="stats-text">
+            <p> Attendance for your meeting peaked at <strong>{{metrics.stats[4]|safe}}</strong> with a total of <strong>{{metrics.stats[3]|safe}}</strong> concurrent participants.</p>
+   
+        </div>
+    </div>
+
+    <div class="container" id="conc_graph" style="width:100%;height:auto">
+    </div>
+
+    <div class="container">
+        <div class="stats-text">
+            <p> A total of <strong>{{metrics.stats[2]|safe}}</strong> different people attended your meeting. </p>
+        </div>
+    </div>
+
+   
+    <div class="container" id="cumu_graph" style="width:100%;height:auto">
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.3.0/math.js" integrity="sha512-bd8Oth+p1rTn+/iUFHsSozuYn7JpmH59vMWe6L+M3huScB/SMTXWkQoME3Ytk0sbGJ40VGp2mO2b8K8FNrewfQ==" crossorigin="anonymous"></script>
+
+    <script type = "text/javascript">
+        var times = document.getElementById("times").value.split(',');
+        var active = document.getElementById("active").value.split(',');
+        var cumulative = document.getElementById("cumulative").value.split(',');
+        var stats = document.getElementById("stats").value.split(',')
+        var trace1 = {
+                    x: times,
+                    y: active,
+                    type: 'bar',
+                };
+        var layout = {
+            annotations: [
+                    {
+                    x: times.length/2,
+                    y: Number(stats[5].replace(']', '')) + 10,
+                    xref: 'x',
+                    yref: 'y',
+                    text: 'Average',
+                    showarrow: false,
+                    font: {
+                        size: 16,
+                        color: '#ffffff'
+                    }
+                }],
+            shapes: [
+                {
+                type: 'line',
+                x0: 0,
+                y0: Number(stats[5].replace(']', '')),
+                x1: times.length,
+                y1: Number(stats[5].replace(']', '')),
+                line: {
+                    color: 'grey',
+                    width: 2,
+                    dash : 'dot'
+                        }
+                    }],
+            font : {
+                family: 'Poppins',
+                size : 12,
+            },
+            xaxis: {
+                tickmode: "array",
+                tickvals: math.range(60, times.length, 60)._data,
+                ticktext: math.range(Number(stats[0].replace('[', ''))+100, Number(stats[1]), 100)._data
+            },
+            yaxis: {
+                title: {
+                    text: 'Active Participants',
+                    font: {
+                        family: 'Poppins',
+                        size: 18,
+                        color: '#7f7f7f'}
+                    },
+                }
+        };
+        var data = [trace1];
+        var config = {responsive: true};
+        Plotly.newPlot('conc_graph', data, layout, config);
+        var trace2 = {
+            x: times,
+            y: cumulative,
+            type: 'bar',
+    
+        };
+        var layout = {
+            font : {
+                family: 'Poppins',
+                size : 12,
+            },
+            xaxis: {
+                tickmode: "array",
+                tickvals: math.range(60, times.length, 60)._data,
+                ticktext: math.range(Number(stats[0].replace('[', ''))+100, Number(stats[1]), 100)._data
+            },
+            yaxis: {
+                title: {
+                    text: 'Cumulative Participants',
+                    font: {
+                        family: 'Poppins',
+                        size: 18,
+                        color: '#7f7f7f'}
+                    },
+                }
+        };
+        var data = [trace2];
+        Plotly.newPlot('cumu_graph', data, layout, config);    
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+</html>

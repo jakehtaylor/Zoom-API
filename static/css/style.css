@@ -1,0 +1,53 @@
+
+
+
+#metrics_upload {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 60px;
+}
+
+
+#att_table {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 50px;
+    margin-bottom: 75px;
+    border-bottom: 3px rgb(219, 218, 218) solid;
+}
+
+table {
+    border-left: 7px blue solid;
+    border-right: 7px blue solid;
+    border-bottom: 7px blue solid; 
+    width:100%;
+}
+
+tr {
+    color: blue;
+    padding: 3px;
+}
+
+.nav-item {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-brand {
+    padding-left: 10px;
+}
+.navbar-dark {
+    border-left: 7px rgb(219, 218, 218) solid;
+    border-right: 7px rgb(219, 218, 218) solid;
+    border-top: 7px rgb(219, 218, 218) solid;
+
+}
+
+.stats-text {
+    font-family: 'Roboto Slab', serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+.stats-text strong {
+    color: blue;
+    font-size: 24px;
+}
