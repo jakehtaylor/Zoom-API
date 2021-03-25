@@ -1,4 +1,7 @@
-
+.nav-link {
+    font-family: 'Josefin sans', sans-serif;
+    font-size: 24px;
+}
 
 
 #metrics_upload {
@@ -26,15 +29,15 @@ tr {
     padding: 3px;
 }
 
-.nav-item {
-    padding-left: 15px;
-    padding-right: 15px;
+#col-headers .nav-item {
+    padding-left: 19px;
+    padding-right: 23px;
 }
 
-.navbar-brand {
+#col-headers .navbar-brand {
     padding-left: 10px;
 }
-.navbar-dark {
+#col-headers {
     border-left: 7px rgb(219, 218, 218) solid;
     border-right: 7px rgb(219, 218, 218) solid;
     border-top: 7px rgb(219, 218, 218) solid;
@@ -50,4 +53,20 @@ tr {
 .stats-text strong {
     color: blue;
     font-size: 24px;
+}
+
+#cForm {
+    font-family: 'Poppins', sans-serif;
+    margin-left: 25px;
+    margin-top: 30px;
+}
+
+.form-check {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-bottom: 10px;
+}
+
+.form-control {
+    margin-bottom: 30px;
 }

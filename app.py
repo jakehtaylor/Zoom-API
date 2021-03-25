@@ -1,13 +1,14 @@
-from flask import Flask, redirect, render_template, request, url_for, abort
+from flask import Flask, redirect, render_template, request, url_for, abort, json
 import os
 import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 from statistics import mean
 
+
 app = Flask(__name__)
 
-app.config['UPLOAD_EXTENSIONS'] = ['.csv', '.xlsx']
+app.config['UPLOAD_EXTENSIONS'] = ['.csv', '.xlsx', '.json']
 app.config['UPLOAD_PATH'] = 'logs'
 
 @app.route("/")
@@ -17,21 +18,32 @@ def home():
 
 @app.route("/", methods=['POST'])
 def upload_files():
-    uploaded_file = request.files['file']
-    filename = uploaded_file.filename
-    if filename != '':
-        file_ext = os.path.splitext(filename)[1]
-        if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-            abort(400)
     
-    if file_ext == '.xlsx':
-        df = pd.read_excel(uploaded_file, header=2, 
-                   usecols=['Participant', 'Join Time', 'Leave Time'])
-    else:
-        df = pd.read_csv(uploaded_file,header=2, 
-                   usecols=['Participant', 'Join Time', 'Leave Time'])
+    clean_file = False
+    files = request.files.getlist("file")
 
-    
+    for f in files:
+        filename = f.filename
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                abort(400)
+        
+        if file_ext == '.xlsx':
+            df = pd.read_excel(f, header=2, 
+                    usecols=['Participant', 'Join Time', 'Leave Time'])
+        elif file_ext == '.csv':
+            df = pd.read_csv(f,header=2, 
+                    usecols=['Participant', 'Join Time', 'Leave Time'])
+        elif file_ext == '.json':
+            changes = json.load(f)
+            clean_file = True
+
+    if clean_file:
+        for key in changes.keys():
+            df.replace({key : changes[key]}, inplace=True)
+            print(key, changes[key])
+
     df['Leave Time'] = [str(x)[0:8] for x in df['Leave Time']]
 
     leave_times = []
@@ -156,4 +168,69 @@ def upload_files():
     return render_template('metrics.html', metrics=metrics)
 
 
+@app.route("/name-check", methods=['GET'])
+def names():
+    return render_template('name-check.html')
+
+
+@app.route("/name-check", methods=['POST'])
+def nameCheck():
+    uploaded_file = request.files['file']
+    filename = uploaded_file.filename
+    if filename != '':
+        file_ext = os.path.splitext(filename)[1]
+        if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+            abort(400)
+    
+    if file_ext == '.xlsx':
+        df = pd.read_excel(uploaded_file, header=2, 
+                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
+    else:
+        df = pd.read_csv(uploaded_file,header=2, 
+                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
+
+    pairsToCheck = {}
+    irregulars = {}
+    names = np.sort(df['Participant'].unique())
+    for n1 in names:
+        if not (n1.replace(" ", "")).isalpha() or n1.replace(" ", "").lower() == n1:
+            irregulars[n1] = "irregular"
+        for check in names:
+            if n1 != check:
+                score1 = fuzz.token_set_ratio(n1, check)
+
+                score3 = fuzz.partial_ratio(n1.lower(), check.lower())
+                score4 = fuzz.ratio(n1.lower().replace(" ", ""), check.lower().replace(" ", ""))
+
+                if score1 >= 85 or (score3 >= 85 and score1 >=50) or (score4 > 85 and score1 > 50):
+                    if check not in pairsToCheck.keys():
+                        if n1 in pairsToCheck.keys(): 
+                            pairsToCheck[n1].append(check)
+                        else:
+                            pairsToCheck[n1] = [check]
+                    elif n1 not in pairsToCheck[check]:
+                        if n1 in pairsToCheck.keys(): 
+                            pairsToCheck[n1].append(check)
+                        else:
+                            pairsToCheck[n1] = [check]
+
+    return redirect(url_for('confirm', pairsToCheck=pairsToCheck, irregulars=irregulars))
+
+@app.route("/confirm-changes", methods=['GET'])
+def confirm():
+    return render_template('confirm-changes.html', pairsToCheck=request.args.get('pairsToCheck'), irregulars=request.args.get("irregulars"))
+
+@app.route("/confirm-changes", methods=['POST'])
+def clean_file():
+    form_edited = {}
+    form = request.form.to_dict()
+    for k in form.keys():
+        if form[k] != '':
+            if 'RADIO' in k:
+                vsplit = form[k].split('./.')
+                form_edited[vsplit[0]] = vsplit[1]
+            else:
+                form_edited[k] = form[k]
+    return render_template('json_download.html', replace=form_edited)
+    
 
