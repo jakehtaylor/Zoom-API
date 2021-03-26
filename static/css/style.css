@@ -3,13 +3,41 @@
     font-size: 24px;
 }
 
-
-#metrics_upload {
-    font-family: 'Poppins', sans-serif;
-    margin-top: 60px;
+.animation-div {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 2px;
 }
 
+.zlogodiv {
+    z-index: 100;
+    padding: 5px;
+}
 
+.zlogodiv img {
+    width: 500px;
+    height: auto;
+}
+
+.ex-circle {
+    border-radius: 50%;
+    background-color: deepskyblue;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    bottom: 115px;
+    left: 536px;
+    opacity: 0;
+    animation: scaleIn 6s infinite cubic-bezier(.36, .11, .89, .32);
+}
+#metrics_upload {
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 50px;
+
+}
 #att_table {
     font-family: 'Poppins', sans-serif;
     margin-top: 50px;
@@ -61,12 +89,24 @@ tr {
     margin-top: 30px;
 }
 
-.form-check {
+#cForm .form-check {
     margin-bottom: 15px;
     margin-top: 15px;
     padding-bottom: 10px;
 }
 
-.form-control {
+#cForm .form-control {
     margin-bottom: 30px;
 }
+
+
+@keyframes scaleIn {
+    from {
+        transform: scale(.5, .5);
+        opacity: .5;
+    }
+    to {
+        transform: scale(2.5, 2.5);
+        opacity: 0;
+    }
+    }
