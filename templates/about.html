@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5886662fe9.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    
+    <nav class="navbar navbar-dark bg-dark" style="z-index: 100;">
+        <div class="container">
+            <ul class="navbar-nav justify-content-start">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">about</a>
+                </li>
+            </ul>
+            <a class="navbar-brand mx-auto" href="/" id="nav-logo" style="padding: 0px;">
+            <img src="{{url_for('static', filename='/images/zoom-logo-left.png')}}" height="130px" width="auto">
+            </a>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/name-check"> cleaning </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="d-grid gap-2 col-5 mx-auto">
+        <div class="text-chunk">
+            <p> <strong class="text-hl">Now, more than ever,</strong> meetings and conferences are happening virtually, primarily hosted by applications like Zoom. It is more than likely that this trend will continue to pick up steam, and it will become crucial for businesses to harness the advantages of hosting events on these virtual platforms, but most businesses aren't equipped to do this.</p> 
+            <p>Zoom provides complete activity logs for every meeting, however, these logs are difficult to understand and contain large amounts of unnecessary information.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="table-responsive" id="log_ex_wrap">
+            <table class="table table-hover table-light table-bordered caption-bottom" id="log_example">
+                <caption>Sample of auto-generated zoom logs</caption>
+                <tbody>
+                    <tr>
+                        <td> Meeting ID </td>
+                        <td> Topic </td>
+                        <td> Host </td>
+                        <td> Email </td>
+                        <td> User Type  </td>
+                        <td> Department</td>
+                        <td> Start Time </td>
+                        <td> End Time </td>
+                        <td> Duration (hh:mm:ss)  </td>
+                        <td> Participants </td>
+                        <td> Host Data Center </td>
+                        <td> Phone </td>
+                        <td> VoIP </td>
+                        <td> 3rd Party Audio </td>
+                        <td> Video </td>
+                        <td> Screen Sharing </td>
+                        <td> Recording </td>
+                        <td> CRC </td>
+                        <td> Encryption </td>
+                    </tr>
+                    <tr>
+                        <td> 967 9828 1762 </td>
+                        <td> Faculty Development </td>
+                        <td> Host Name </td>
+                        <td> host@email.com </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> 2/12/2019 11:30:00 </td>
+                        <td> 2:05:00 PM </td>
+                        <td> 2:35:00 </td>
+                        <td> 179 </td>
+                        <td> OOH </td>
+                        <td>  </td>
+                        <td> TRUE </td>
+                        <td> FALSE </td>
+                        <td> TRUE </td>
+                        <td> TRUE </td>
+                        <td> TRUE </td>
+                        <td> FALSE </td>
+                        <td> TRUE </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> Participant </td>
+                        <td> Device</td>
+                        <td> IP Address </td>
+                        <td> Location</td>
+                        <td> Network Type</td>
+                        <td> Microphone</td>
+                        <td> Speaker </td>
+                        <td> Camera </td>
+                        <td> Data Center </td>
+                        <td> Connection Type </td>
+                        <td> Join Time </td>
+                        <td> Leave Time </td>
+                        <td> Version </td>
+                        <td> Audio (Receiving) Bitrate </td>
+                        <td> Audio (Sending) Bitrate </td>
+                        <td> Audio (Receiving) Latency </td>
+                        <td> Audio (Sending) Latency</td>
+                        <td> Audio (Receiving) Jitter</td>
+                        <td> ... </td>
+                    </tr>
+                    <tr>
+                        <td> John Doe </td>
+                        <td> Mac </td>
+                        <td> Public IP: 47.51.4.325 Local IP: 193.169.1.365 </td>
+                        <td> Zoom Town ( US)</td>
+                        <td> Wifi</td>
+                        <td> Microphone</td>
+                        <td> MacBook Pro Speakers (MacBook Pro Speakers) </td>
+                        <td> FaceTime HD Camera </td>
+                        <td> United States (Cloud Top) </td>
+                        <td> UDP </td>
+                        <td> 11:47:00 AM </td>
+                        <td> 2:00:00 PM(John Doe left the meeting.Reason: left the meeting.)</td>
+                        <td> 5.4.58740.1105 </td>
+                        <td> 173 kbps </td>
+                        <td> 53 kbps </td>
+                        <td> 82 ms </td>
+                        <td> 81 ms</td>
+                        <td> 7 ms</td>
+                        <td> ... </td>
+                    </tr>
+
+                </tbody> 
+            </table>
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-5 mx-auto">
+        <div class="text-chunk">
+            <p>  This app exhibits several ways to turn these dense logs into meaningful analytics for company meetings and large conferences alike, with no coding experience required. 
+            </p> 
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="text-chunk">
+            <h2> <strong> Accessing the Logs </strong></h2>
+            <ol>
+                <li><strong>Sign in </strong>to the Zoom web portal.</li>
+                <li>In the navigation panel, click<strong> Dashboard.</strong></li>
+                <li>At the top of the Dashboard screen, click the <strong>Meetings</strong> tab.</li>
+                <li>Click <strong>Past Meetings</strong>.</li>
+                <li>Click the desired <strong>Meeting ID number</strong>, then click <strong>Export details to CSV.</strong></li>
+                <li>Once the report has been processed, click <strong>Downloads</strong> at the top of the page.</li>
+                <li>Click <strong>Meetings</strong> to access the generated reports.</li>
+                <li>Click <strong>Download</strong> to download and view the report.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="text-chunk">
+            <h2> <strong> Using Zoom Analytics </strong></h2>
+                <ol>
+                    <li> Save the .csv formatted logs to a new folder on your computer.</li>
+                    <li> Navigate to the app's <a href="/name-check"> cleaning </a> page, either
+                            through the link at the top right of each page, or the blue button under the file
+                            upload on the landing page. </li>
+                    <li> Upload<sup>*</sup> the log file and click <strong>Auto-clean</strong></li>
+                    <li> The app will run a <a href="https://rb.gy/knpofh"> Levenshtein distance </a> algorithm to check 
+                            for users who might have used slightly different names over the course of the meeting, 
+                            and a simpler check for names that are abnormally formatted. This might take a few seconds.</li>
+                    <li> You'll be taken to a page to review and select every potential change discovered by the App.
+                            Follow the instructions and Click the <strong>Submit</strong> button at the bottom of the page once you've
+                            selected and inputted all of your desired changes.</li>
+                    <li> You'll be redirected to a page with a link to <strong>download</strong> a .json data file that contains the information
+                            the program needs to make all of your selected substitutions. <strong>Save</strong> this file into the same folder
+                            that contains your zoom logs.</li>
+                    <li> Return to the landing page and Click <strong>Choose Files</strong>.</li>
+                    <li> In the pop-up file selection window, navigate into the folder housing your .csv zoom logs and the 
+                        .json cleaning instructions, and <strong>select both files</strong>. Click <strong>Open</strong> to upload<sup>*</sup> the two files.</li>
+                    <li> Click <strong>Generate Metrics</strong>.</li>
+                </ol>
+
+            <p class="ast-note"> <sup>*</sup>This application does not save any user-uploaded files into server storage.
+                        When you upload a file, the file is read for the necessary information and lost upon
+                        redirection.</p>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-center text-white">
+        <div class="container p-4 pb-0">
+          <section class="mb-4">
+            <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/jakehtaylor/" role="button"
+              ><i class="fab fa-linkedin fa-3x"></i
+            ></a>
+            <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/jakehtaylor" role="button"
+              ><i class="fab fa-github fa-3x"></i
+            ></a>
+          </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2021 Copyright: Jake H. Taylor
+        </div>
+      </footer>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    
+</body>
+</html>

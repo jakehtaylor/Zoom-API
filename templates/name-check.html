@@ -7,22 +7,153 @@
     <title>Name Check</title>
     <link href="../static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5886662fe9.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container" id="nc_upload">
+    <nav class="navbar navbar-dark bg-dark" style="z-index: 100;">
+        <div class="container">
+            <ul class="navbar-nav justify-content-start">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">about</a>
+                </li>
+            </ul>
+            <a class="navbar-brand mx-auto" href="/" id="nav-logo" style="padding: 0px;">
+            <img src="{{url_for('static', filename='/images/zoom-logo-left.png')}}" height="130px" width="auto">
+            </a>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/name-check"> cleaning </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <div class="text-chunk">
+        <p><strong class="text-hl">Cleaning: The most tedious and time-consuming part of any data project.</strong>
+          Working with zoom logs is no different. The most recent set of logs I was hired to clean
+          was for an event that 234 people attended. I was also provided with the registration data 
+          for the event, and out of the <strong class="text-emph">234</strong> participants, <strong class="text-emph">144</strong> used a zoom username that <i>did not match</i>
+          their registration name, and <strong class="text-emph">28</strong> did not match with <i>any</i> registered name. That leaves 62 
+          people who logged into the zoom meeting with the correct username,  <strong class="text-emph"><i> just 26% </i></strong>  of the participant
+          pool.</p>
+
+          <p> That's why I developed the Zoom Analytics Auto-cleaning service. The service uses the combination of 
+            3 different <a href="https://pypi.org/project/fuzzywuzzy/">Levenshtein</a> ratios: simple ratio, partial ratio, and token set ratio
+            to flag pairs of usernames that might have been used by the same participant. Common examples are <strong class="text-emph">JOHN DOE</strong> / <strong class="text-emph">John Doe</strong>, 
+            <strong class="text-emph">john.doe</strong> / <strong class="text-emph">John Doe</strong>, <strong class="text-emph">John D</strong> / <strong class="text-emph">John Doe</strong>, 
+            and <strong class="text-emph">Doe John</strong> / <strong class="text-emph">John Doe</strong>.</p>
+
+          <p>
+            The service also runs an auxiliary check for names that are formatted in a way that is unlikely to match with their
+            registered name, if the event has a registration form. Common examples are <strong class="text-emph">johndoe</strong>, <strong class="text-emph">John Doe (Dean - University of Zoom)</strong>, and
+            <strong class="text-emph">Jonathan "John" Doe</strong>.
+          </p>
+        </div>  
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <div class="text-chunk">
+          <h2> <strong> Using Zoom Analytics Auto-cleaning </strong></h2>
+          <ol>
+            <li>Upload<sup>*</sup> the log file you want to clean using the form at the bottom of the page
+            and click <strong>Auto-clean</strong>.</li>
+            <li>You'll be redirected to a page with two form sections<sup>**</sup>, the first section will contain every
+              pair of similar usernames, with a radio input group allowing you to make the substitution in either direction. </li>
+              <div class="demo-radio">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    Replace "John Doe" with "Doe John"
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    Replace "Doe John" with "John Doe"
+                  </label>
+                </div>
+                <div class="form-check" id="cancel">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="radio-cancel">
+                  <label class="form-check-label" for="radio-cancel">
+                    Cancel
+                  </label>
+                </div>
+              </div>
+
+            <li>The second section will contain all of the abnormally-formatted names, with a text input group
+              allowing you to type in a well-formatted name.</li>
+
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Irregular Username: "John Doe (Dean - University of Zoom)"</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="John Doe (Dean - University of Zoom)">
+              </div>
+
+              <li>Click the <strong>Submit</strong> button at the bottom of the page once you've
+              selected and inputted all of your desired changes.</li>
+              <li>You'll be redirected to a page with a link to <strong>download</strong> a .json data file that contains the information
+                the program needs to make all of your selected substitutions. <strong>Save</strong> this file into the same folder
+                that contains your zoom logs.</li>
+              <li> Return to the landing page and Click <strong>Choose Files</strong>.</li>
+              <li> In the pop-up file selection window, navigate into the folder housing your .csv zoom logs and the 
+                  .json cleaning instructions, and <strong>select both files</strong>. Click <strong>Open</strong> to upload<sup>*</sup> the two files.</li>
+              <li> Click <strong>Generate Metrics</strong>.</li>
+
+          </ol>
+
+          <p class="ast-note"> <sup>*</sup>This application does not save any user-uploaded files into server storage.
+            When you upload a file, the file is read for the necessary information and lost upon
+            redirection.</p>
+          
+          <p class="ast-note"> <sup>**</sup>It's possible that a name will be both abnormally formatted and have a very
+            similar counterpart, causing the name to appear in both sections. In this case it's only necessary to stipulate
+            a substitution in one section of the form. If the proposed substitution in the first section is correct, it's 
+            recommended that you use that substitution, and not the manual text input.</p>
+
+      </div> 
+    </div>
+
+
+    <div class="d-grid gap-2 col-6 mx-auto" id="nc_upload">
         <form method="POST" action="" enctype="multipart/form-data">
                 <div class="input-group">
-                    <input type="file" class="form-control form-control-md" id="ipncg4" aria-describedby="ipncg4" aria-label="Upload" name="file" accept=".csv, .xlsx">
-                    <input class="btn btn-primary" type="submit" value="Check Names" id="ipncg4">
-                  </div>
-            </div>
+                    <input type="file" class="form-control" id="ipncg4" aria-describedby="ipncg4" aria-label="Upload" name="file" accept=".csv, .xlsx">
+                    <input class="btn btn-primary" type="submit" value="Auto-clean" id="ipncg4">
+                </div>
         </form>
     </div>
 
+
+    <footer class="bg-dark text-center text-white">
+      <div class="container p-4 pb-0">
+        <section class="mb-4">
+          <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/jakehtaylor/" role="button"
+            ><i class="fab fa-linkedin fa-3x"></i
+          ></a>
+          <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/jakehtaylor" role="button"
+            ><i class="fab fa-github fa-3x"></i
+          ></a>
+        </section>
+      </div>
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2021 Copyright: Jake H. Taylor
+      </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $('#cancel').hide(); 
+      $('[name]').change(function(){
+            $('#cancel').show(); 
+      });
+    });
+    
+    </script>
+
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-  
 
     
 </body>

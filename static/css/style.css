@@ -4,7 +4,7 @@
 }
 
 .animation-div {
-    margin-top: 100px;
+    margin-top: 125px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,7 +39,7 @@
 
 }
 #att_table {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-top: 50px;
     margin-bottom: 75px;
     border-bottom: 3px rgb(219, 218, 218) solid;
@@ -58,12 +58,19 @@ tr {
 }
 
 #col-headers .nav-item {
-    padding-left: 19px;
-    padding-right: 23px;
+    padding-left: 5px;
+    padding-right: 40px;
+  
+}
+
+#col-headers .nav-link {
+    font-family: 'Roboto Slab', serif;
+    font-size: 20px;
 }
 
 #col-headers .navbar-brand {
     padding-left: 10px;
+    font-family: 'Roboto Slab', serif;
 }
 #col-headers {
     border-left: 7px rgb(219, 218, 218) solid;
@@ -84,7 +91,7 @@ tr {
 }
 
 #cForm {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-left: 25px;
     margin-top: 30px;
 }
@@ -99,6 +106,85 @@ tr {
     margin-bottom: 30px;
 }
 
+#nc_upload {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+footer {
+    margin-top: 125px;
+}
+
+#log_example {
+    margin-top: 25px;
+    /*border-top: 7px rgb(49, 49, 49) solid;*/
+    border-top: 7px rgb(218, 218, 218) solid;
+}
+
+#log_example tr {
+    font-family: 'Roboto', sans-serif;
+    color: black;
+}
+
+.text-chunk {
+    font-family: 'Roboto Slab', sans-serif;
+    font-size: 18px;
+    color: black;
+    margin-top: 25px;
+    padding: 20px;
+    text-align: justify;
+}
+.text-chunk p {
+    margin-top: 30px;
+}
+
+.text-chunk p .text-hl {
+    font-size: 22px;
+    font-family: 'Roboto Slab', sans-serif;
+    color: blue;
+}
+
+.text-chunk p .text-emph {
+    font-size: 19px;
+    color: blue;
+}
+
+.text-chunk h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Roboto', serif;
+}
+
+.text-chunk li strong {
+    color: blue;
+    font-size: 19px;
+}
+
+.text-chunk .mb-3 {
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border:2px lightblue dotted;
+}
+
+
+.demo-radio {
+
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border:2px lightblue dotted;
+}
+.ast-note {
+    color: rgb(122, 122, 122);
+    font-size: 14;
+    font-family: 'Roboto', serif;
+    margin-top: 50px;
+}
+
+sup {
+    color: rgb(122, 122, 122);
+}
 
 @keyframes scaleIn {
     from {

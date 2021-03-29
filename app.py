@@ -42,7 +42,6 @@ def upload_files():
     if clean_file:
         for key in changes.keys():
             df.replace({key : changes[key]}, inplace=True)
-            print(key, changes[key])
 
     df['Leave Time'] = [str(x)[0:8] for x in df['Leave Time']]
 
@@ -126,7 +125,8 @@ def upload_files():
     jal_display = sorted_jal
     jal_display['First Join'] = [str(x)[:-2] + ":" + str(x)[-2:] for x in jal_display['First Join']]
     jal_display['Last Leave'] = [str(x)[:-2] + ":" + str(x)[-2:] for x in jal_display['Last Leave']]
-    jal_display['Total Time'] = [str(x)[:-2] + ":" + str(x)[-2:] for x in jal_display['Total Time']]
+    jal_display['Total Time'] = [str(x)[:-2] + ":" + str(x)[-2:] if len(str(x)) > 2 else str(x) + " min."
+                                for x in jal_display['Total Time']]
     jal_display = jal_display.rename(columns={
         'First Join' : 'Joined',
         'Last Leave' : 'Left',
@@ -234,3 +234,8 @@ def clean_file():
     return render_template('json_download.html', replace=form_edited)
     
 
+@app.route("/about")
+def about():
+
+    
+    return render_template('about.html')

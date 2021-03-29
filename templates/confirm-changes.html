@@ -8,13 +8,48 @@
     <title>Document</title>
     <link href="../static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://kit.fontawesome.com/5886662fe9.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <nav class="navbar navbar-dark bg-dark" style="z-index: 100;">
+        <div class="container">
+            <ul class="navbar-nav justify-content-start">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">about</a>
+                </li>
+            </ul>
+            <a class="navbar-brand mx-auto" href="/" id="nav-logo" style="padding: 0px;">
+            <img src="{{url_for('static', filename='/images/zoom-logo-left.png')}}" height="130px" width="auto">
+            </a>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/name-check"> cleaning </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <form id="cForm" action="/confirm-changes" method="POST">
     </form>
+
+    <footer class="bg-dark text-center text-white">
+        <div class="container p-4 pb-0">
+          <section class="mb-4">
+            <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/jakehtaylor/" role="button"
+              ><i class="fab fa-linkedin fa-3x"></i
+            ></a>
+            <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/jakehtaylor" role="button"
+              ><i class="fab fa-github fa-3x"></i
+            ></a>
+          </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+          © 2021 Copyright: Jake H. Taylor
+        </div>
+      </footer>
 
     <script>
         window.onload = function() {
