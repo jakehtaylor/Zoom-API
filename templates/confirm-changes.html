@@ -8,9 +8,7 @@
     <title>Document</title>
     <link href="../static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://kit.fontawesome.com/5886662fe9.js" crossorigin="anonymous"></script>
 </head>
@@ -32,8 +30,10 @@
             </ul>
         </div>
     </nav>
-    <form id="cForm" action="/confirm-changes" method="POST">
-    </form>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <form id="cForm" action="/confirm-changes" method="POST">
+        </form>
+    </div>  
 
     <footer class="bg-dark text-center text-white">
         <div class="container p-4 pb-0">
@@ -51,20 +51,32 @@
         </div>
       </footer>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    
     <script>
         window.onload = function() {
             var checks = {{pairsToCheck|safe}};
-            console.log(checks);
             for (const [key, value] of Object.entries(checks)) {
                 value.forEach(function (val, index) {
+                
+                var wrapper = document.createElement('div')
+                wrapper.id = `${key}${val}wrap`;
+
                 var div1 = document.createElement('div');
                 div1.id = `${key}${val}div1`;
                 var div2 = document.createElement('div');
                 div2.id = `${key}${val}div2`;
+                var divC = document.createElement('div');
+                divC.id = `${key}/${val}RADIO cancel`;
+
                 var form = document.getElementById("cForm");
 
-                form.appendChild(div1);
-                form.appendChild(div2);
+                wrapper.appendChild(div1);
+                wrapper.appendChild(div2);
+                wrapper.appendChild(divC);
+
+                form.appendChild(wrapper);
 
                 var input1 = document.createElement('input');
                 input1.id = `${key}${val}input1`;
@@ -72,18 +84,25 @@
                 var input2 = document.createElement('input');
                 input2.id = `${key}${val}input2`;
 
+                var inputC = document.createElement('input');
+                inputC.id = `${key}${val}inputC`;
+
                 var label1 = document.createElement('label');
                 label1.id = `${key}${val}label1`;
 
                 var label2 = document.createElement('label');
                 label2.id = `${key}${val}label2`;
 
+                var labelC = document.createElement('label');
+                labelC.id = `${key}${val}labelC`;
+
                 var labeltext1 = document.createTextNode(`Replace "${val}" with "${key}"`);
                 var labeltext2 = document.createTextNode(`Replace "${key}" with "${val}"`);
+                var labeltextC = document.createTextNode("Cancel");
 
                 label1.appendChild(labeltext1);
-
                 label2.appendChild(labeltext2);
+                labelC.appendChild(labeltextC);
 
                 div1.appendChild(input1);
                 div1.appendChild(label1);
@@ -91,12 +110,22 @@
                 div2.appendChild(input2);
                 div2.appendChild(label2);
 
+                divC.appendChild(inputC);
+                divC.appendChild(labelC);
+
+                var wrap = document.getElementById(`${key}${val}wrap`);
+                wrap.setAttribute("class", "radio-wrap");
+
                 var divsel1 = document.getElementById(`${key}${val}div1`);
                 divsel1.setAttribute("class", "form-check")
 
                 var divsel2 = document.getElementById(`${key}${val}div2`);
                 divsel2.setAttribute("class", "form-check");
-                divsel2.setAttribute("style", "border-bottom:2px lightblue dotted;")
+                //divsel2.setAttribute("style", "border-bottom:2px lightblue dotted;")
+
+                divselC = document.getElementById(`${key}/${val}RADIO cancel`);
+                divselC.setAttribute("class", "form-check");
+                $(divselC).hide();
              
                 var inpsel1 = document.getElementById(`${key}${val}input1`);
                 inpsel1.setAttribute("class", "form-check-input");
@@ -107,9 +136,14 @@
                 var inpsel2 = document.getElementById(`${key}${val}input2`);
                 inpsel2.setAttribute("class", "form-check-input");
                 inpsel2.setAttribute("type", "radio");
-                inpsel2.setAttribute("name", `${key}/${val}RADIO`)
+                inpsel2.setAttribute("name", `${key}/${val}RADIO`);
                 inpsel2.setAttribute("value", `${key}./.${val}`);
 
+                var inpselC = document.getElementById(`${key}${val}inputC`);
+                inpselC.setAttribute("class", "form-check-input");
+                inpselC.setAttribute("type", "radio");
+                inpselC.setAttribute("name", `${key}/${val}RADIO`);
+                inpselC.setAttribute("value", "");
 
                 var labsel1 = document.getElementById(`${key}${val}label1`);
                 labsel1.setAttribute("class", "form-check-label");
@@ -118,6 +152,23 @@
                 var labsel2 = document.getElementById(`${key}${val}label2`);
                 labsel2.setAttribute("class", "form-check-label");
                 labsel2.setAttribute("for", `${key}${val}input2`); 
+
+                var labselC = document.getElementById(`${key}${val}labelC`);
+                labselC.setAttribute("class", "form-check-label");
+                labselC.setAttribute("for", `${key}${val}inputC`);
+
+                inpsel1.onclick = function() {
+                    var cdiv = document.getElementById(`${inpsel1.name} cancel`)
+                    cdiv.setAttribute("style", "display:block;")
+                };
+
+                inpsel2.onclick = function() {
+                    var cdiv = document.getElementById(`${inpsel1.name} cancel`)
+                    cdiv.setAttribute("style", "display:block;")
+                };
+                
+            
+                
             })};
 
             var irregs = {{irregulars|safe}};
@@ -129,7 +180,7 @@
                 form.appendChild(div);
                 var label = document.createElement('label');
                 label.id = `${key}1label`;
-                var labeltext = document.createTextNode(`Irregular username : "${key}", replace?`);
+                var labeltext = document.createTextNode(`Irregular username : "${key}"`);
                 label.appendChild(labeltext);
                 var input = document.createElement('input');
                 input.id = `${key}1input`;
@@ -149,20 +200,35 @@
                 
             };
 
+            var buttonD = document.createElement('div');
+            buttonD.id = "button_wrap";
+            var form = document.getElementById("cForm");
+            form.appendChild(buttonD);
+
             var button = document.createElement('button');
             button.id = "sub_button";
-            var form = document.getElementById("cForm");
+            
             var buttonText = document.createTextNode("Submit");
             button.appendChild(buttonText);
-            form.appendChild(button);
+            buttonD = document.getElementById("button_wrap");
 
+            buttonD.setAttribute("class","d-grid gap-2 col-12 mx-auto")
+            buttonD.appendChild(button);
+           
             var button = document.getElementById("sub_button");
-            button.setAttribute("class", "btn btn-primary");
+            button.setAttribute("class", "btn btn-primary btn-lg");
             button.setAttribute("type", "submit");
-            button.setAttribute("style", "margin-bottom:30px;");
+            button.setAttribute("style", "margin-bottom:50px;margin-top:30px;");
 
         };
     </script>
+
+    <script>
+
+  </script>
+
+
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 </html>
