@@ -196,9 +196,9 @@ def nameCheck():
         if not (n1.replace(" ", "")).isalpha() or n1.replace(" ", "").lower() == n1:
             if re.match('[A-Za-z]+[ ]{1}[A-Za-z]+[-][A-Za-z]+', n1) and n1.count(' ') == 1:
                  pass
-            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1}\.{1}[ ]{1}[A-Za-z]+', n1):
+            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1}\.{1}[ ]{1}[A-Za-z]+', n1) and n1.count(' ') == 2:
                 pass
-            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1,2}[\']{1}[A-Za-z]+', n1):
+            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1,2}[\']{1}[A-Za-z]+', n1) and n1.count(' ') == 1:
                 pass
             else:
                 irregulars[n1] = "irregular"
