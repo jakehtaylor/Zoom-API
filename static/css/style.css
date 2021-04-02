@@ -57,12 +57,17 @@ tr {
     padding: 3px;
 }
 
+td~td {
+    width: 10%;
+}
+
 #col-headers .nav-item:last-child {
-    padding-right: 83px;
+    padding-right: 70px;
 }
 
 #col-headers .nav-item {
-    padding-left:45px;
+    padding-left: 63px;
+    display: flex;
 }
 
 #col-headers .nav-link {
