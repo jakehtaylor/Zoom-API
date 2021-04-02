@@ -1,10 +1,10 @@
-from flask import Flask, redirect, render_template, request, url_for, abort, json
+from flask import Flask, redirect, render_template, request, url_for, abort, json, send_file
 import os
 import pandas as pd
 import numpy as np
 from fuzzywuzzy import fuzz
 from statistics import mean
-
+import re
 
 app = Flask(__name__)
 
@@ -30,7 +30,7 @@ def upload_files():
                 abort(400)
         
         if file_ext == '.xlsx':
-            df = pd.read_excel(f, header=2, 
+            df = pd.read_excel(f, header=3, 
                     usecols=['Participant', 'Join Time', 'Leave Time'])
         elif file_ext == '.csv':
             df = pd.read_csv(f,header=2, 
@@ -183,7 +183,7 @@ def nameCheck():
             abort(400)
     
     if file_ext == '.xlsx':
-        df = pd.read_excel(uploaded_file, header=2, 
+        df = pd.read_excel(uploaded_file, header=3, 
                    usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
     else:
         df = pd.read_csv(uploaded_file,header=2, 
@@ -194,7 +194,14 @@ def nameCheck():
     names = np.sort(df['Participant'].unique())
     for n1 in names:
         if not (n1.replace(" ", "")).isalpha() or n1.replace(" ", "").lower() == n1:
-            irregulars[n1] = "irregular"
+            if re.match('[A-Za-z]+[ ]{1}[A-Za-z]+[-][A-Za-z]+', n1) and n1.count(' ') == 1:
+                 pass
+            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1}\.{1}[ ]{1}[A-Za-z]+', n1):
+                pass
+            elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1,2}[\']{1}[A-Za-z]+', n1):
+                pass
+            else:
+                irregulars[n1] = "irregular"
         for check in names:
             if n1 != check:
                 score1 = fuzz.token_set_ratio(n1, check)
@@ -236,6 +243,10 @@ def clean_file():
 
 @app.route("/about")
 def about():
-
-    
     return render_template('about.html')
+
+
+@app.route("/demo")
+def download_file():
+    path = "testing+development/DEMO-FILE-v1.0.xlsx"
+    return send_file(path, as_attachment=True)

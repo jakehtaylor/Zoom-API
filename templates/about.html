@@ -163,7 +163,7 @@
 
     <div class="d-grid gap-2 col-6 mx-auto">
         <div class="text-chunk">
-            <h2> <strong> Accessing the Logs </strong></h2>
+            <h2> <strong> Accessing the Logs</strong><sup>*</sup></h2>
             <ol>
                 <li><strong>Sign in </strong>to the Zoom web portal.</li>
                 <li>In the navigation panel, click<strong> Dashboard.</strong></li>
@@ -174,19 +174,25 @@
                 <li>Click <strong>Meetings</strong> to access the generated reports.</li>
                 <li>Click <strong>Download</strong> to download and view the report.</li>
             </ol>
+        
+
+        <p class="ast-note"> <sup>*</sup>You will need a paid Zoom account to access detailed meeting logs, 
+            but I've created a <a href="{{ url_for('.download_file') }}" download="Zoom-Analytics-Demo.xlsx">downloadable demo file</a> to get a sense of how the App works.</p>
         </div>
     </div>
+       
+
 
     <div class="d-grid gap-2 col-6 mx-auto">
         <div class="text-chunk">
             <h2> <strong> Using Zoom Analytics </strong></h2>
                 <ol>
                     <li> Save the .csv formatted logs to a new folder on your computer.</li>
-                    <li> Navigate to the app's <a href="/name-check"> cleaning </a> page, either
+                    <li> Navigate to the app's <a href="/name-check">cleaning</a> page, either
                             through the link at the top right of each page, or the blue button under the file
                             upload on the landing page. </li>
-                    <li> Upload<sup>*</sup> the log file and click <strong>Auto-clean</strong></li>
-                    <li> The app will run a <a href="https://rb.gy/knpofh"> Levenshtein distance </a> algorithm to check 
+                    <li> Upload<sup>**</sup> the log file and click <strong>Auto-clean</strong></li>
+                    <li> The app will run a <a href="https://rb.gy/knpofh"> Levenshtein distance</a> algorithm to check 
                             for users who might have used slightly different names over the course of the meeting, 
                             and a simpler check for names that are abnormally formatted. This might take a few seconds.</li>
                     <li> You'll be taken to a page to review and select every potential change discovered by the App.
@@ -197,11 +203,11 @@
                             that contains your zoom logs.</li>
                     <li> Return to the landing page and Click <strong>Choose Files</strong>.</li>
                     <li> In the pop-up file selection window, navigate into the folder housing your .csv zoom logs and the 
-                        .json cleaning instructions, and <strong>select both files</strong>. Click <strong>Open</strong> to upload<sup>*</sup> the two files.</li>
+                        .json cleaning instructions, and <strong>select both files</strong>. Click <strong>Open</strong> to upload<sup>**</sup> the two files.</li>
                     <li> Click <strong>Generate Metrics</strong>.</li>
                 </ol>
 
-            <p class="ast-note"> <sup>*</sup>This application does not save any user-uploaded files into server storage.
+            <p class="ast-note"> <sup>**</sup>This application does not save any user-uploaded files into server storage.
                         When you upload a file, the file is read for the necessary information and lost upon
                         redirection.</p>
         </div>
