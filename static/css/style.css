@@ -29,7 +29,7 @@
     height: 400px;
     position: absolute;
     bottom: 114px;
-    left: 529px;
+    left: 537px;
     opacity: 0;
     animation: scaleIn 6s infinite cubic-bezier(.36, .11, .89, .32);
 }
