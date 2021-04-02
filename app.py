@@ -31,7 +31,7 @@ def upload_files():
         
         if file_ext == '.xlsx':
             df = pd.read_excel(f, header=3, 
-                    usecols=['Participant', 'Join Time', 'Leave Time'])
+                    usecols=['Participant', 'Join Time', 'Leave Time'],engine='openpyxl')
         elif file_ext == '.csv':
             df = pd.read_csv(f,header=2, 
                     usecols=['Participant', 'Join Time', 'Leave Time'])
@@ -184,7 +184,7 @@ def nameCheck():
     
     if file_ext == '.xlsx':
         df = pd.read_excel(uploaded_file, header=3, 
-                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
+                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'],engine='openpyxl')
     else:
         df = pd.read_csv(uploaded_file,header=2, 
                    usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
