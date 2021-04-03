@@ -156,6 +156,7 @@ def upload_files():
 
     Mean_att = int(mean([a for a in Active if a != 0]))
     peak_time = Times_formatted[Active.index(max(Active))]
+    peak_time = peak_time[:-5] + ":" + peak_time[-5:]
 
 
     metrics = {
