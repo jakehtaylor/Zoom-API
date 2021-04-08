@@ -13,4 +13,5 @@ The second feature I developed was a username cleaning service. By far, the thin
 
 I designed the app such that it never actually saves any uploaded file. It reads the file, extracts the information, and passes that information to a new page, losing the original file upon redirection. The information the app gleans will also be gone the instant the user closes or leaves that page. I did this for the security and stability of the app, the security of the user’s data, and the fact that I didn’t need to implement third-party cloud storage. This design choice forced me to solve some complex problems, but I feel it was worth it in the end. Zoom Analytics is probably one of the lone web apps that only take information explicitly given by the user, and only keep that information for as long as necessary, and not a second more.
 
-
+##See it in action: ## 
+https://zoom-analytics-api.herokuapp.com/
