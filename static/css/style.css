@@ -7,6 +7,7 @@
     margin-top: 125px;
     display: flex;
     align-items: center;
+    align-self: center;
     justify-content: center;
     position: relative;
     margin-bottom: 2px;
@@ -20,6 +21,8 @@
 .zlogodiv img {
     width: 500px;
     height: auto;
+    position: relative;
+    right:18px;
 }
 
 .ex-circle {
@@ -29,7 +32,7 @@
     height: 400px;
     position: absolute;
     bottom: 114px;
-    left: 537px;
+    left: auto;
     opacity: 0;
     animation: scaleIn 6s infinite cubic-bezier(.36, .11, .89, .32);
 }
