@@ -1,6 +1,6 @@
 # Zoom-Analytics-API
 
-Over the past 9 months I've been working in an intermittent freelance capacity for a company performing analytics on events they've been running over Zoom. I developed code to transform raw Zoom logs into visualizations and tables describing individual and cumulative participation. As I beleive these analytics can be useful to almost any business that uses Zoom frequently I decided to take all of that work and package it into a web app that anyone can use. I created a flask API that receives Zoom logs from a user, and turns the logs into a page of metrics, including:
+Over the past 9 months I've been working in an intermittent freelance capacity for a company performing analytics on events they've been running over Zoom. I developed code to transform raw Zoom logs into visualizations and tables describing individual and cumulative participation. I beleive these analytics can be useful to almost any business that uses Zoom frequently, so I decided to take all of my work and package it into a web app that's extremely simple to use. I created a flask API that receives Zoom logs from a user, and turns the logs into a page of metrics, including:
 <ul>
 <li> A table with each individual participant, their first login to the meeting, their last logout from the meeting, and the total amount of time they spent in the meeting.</li>
 <li>The meeting’s peak attendance, and the time at which that peak took place.</li>
