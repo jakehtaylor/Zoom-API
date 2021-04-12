@@ -36,6 +36,9 @@
     <div class="container" id="att_table" style="height:600px;overflow:auto;">
             <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-primary" id="col-headers"> 
                 <a class="navbar-brand" href="#"> Meeting Participants </a>
+                <a class="btn btn-primary" id="tableDL" download="metrics_table.csv">
+                    <i class="fas fa-download fa-1x"></i>
+                </a>
                 <ul class="navbar-nav ms-auto" style="color:antiquewhite"> 
                     <li class="nav-item"> 
                         <a class="nav-link active" href="#"> 
@@ -56,6 +59,20 @@
             </nav> 
         {{ metrics.tables[0] | safe }}
     </div>
+    
+    <script> 
+        var a = document.getElementById("tableDL");
+        var tdata = {{ metrics.tables[1]|safe }};
+        var csv = 'Participant,Joined,Left,Time\n';
+
+        tdata.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+        });
+        
+        var csvData = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+        a.setAttribute("href", csvData);
+    </script>
 
     <input type = "hidden" id = "times" name = "variable" value = "{{metrics.graphs[0][0]|safe}}">
     <input type = "hidden" id = "active" name = "variable" value = "{{metrics.graphs[0][1]|safe}}" >
