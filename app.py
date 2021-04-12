@@ -160,7 +160,7 @@ def upload_files():
 
 
     metrics = {
-        'tables' : [jal_display.to_html(header=False,index=False, classes="table table-hover table-light table-responsive")],
+        'tables' : [jal_display.to_html(header=False,index=False, classes="table table-hover table-light table-responsive"), jal_display.to_json(orient="values")],
         'graphs' : [[Times_formatted, Active], [Times_formatted, Cumulative]],
         'stats': [first_hour, last_hour, max(Cumulative), max(Active), peak_time, Mean_att]
     }
