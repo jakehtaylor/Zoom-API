@@ -15,3 +15,8 @@ I designed the app such that it never actually saves any uploaded file. It reads
 
 ## See it in action: ## 
 https://zoom-analytics-api.herokuapp.com/
+
+
+
+### V1.1 4/14/21 ### 
+Table on the metrics page can now be downloaded
