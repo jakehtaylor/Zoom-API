@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Matching</title>
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5886662fe9.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark" style="z-index: 100;">
+        <div class="container">
+            <ul class="navbar-nav justify-content-start">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">about</a>
+                </li>
+            </ul>
+            <a class="navbar-brand mx-auto" href="/" id="nav-logo" style="padding: 0px;">
+            <img src="{{url_for('static', filename='/images/zoom-logo-left.png')}}" height="130px" width="auto">
+            </a>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/name-check"> cleaning </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="d-grid gap-2 col-10 mx-auto">
+        <form id='matchForm' method="POST" action="/matching">
+        </form>
+    </div>
+
+<footer class="bg-dark text-center text-white">
+    <div class="container p-4 pb-0">
+      <section class="mb-4">
+        <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/jakehtaylor/" role="button"
+          ><i class="fab fa-linkedin fa-3x"></i
+        ></a>
+        <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/jakehtaylor" role="button"
+          ><i class="fab fa-github fa-3x"></i
+        ></a>
+      </section>
+    </div>
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2021 Copyright: Jake H. Taylor
+    </div>
+  </footer>
+
+
+  <script>
+    var data = {{ mDict|safe }};
+    console.log(data);
+    
+    for (const [name, matches] of Object.entries(data)) {
+        console.log(name, matches);
+        var form = document.getElementById("matchForm");
+        var wrapper = document.createElement('div')
+        wrapper.id = `${name}wrap`;
+        form.appendChild(wrapper);
+        wrapper.setAttribute("class", "wrap");
+
+        var h4name = document.createElement('h4');
+        var h4text = document.createTextNode(`${name}`)
+        h4name.appendChild(h4text);
+        wrapper.appendChild(h4name);
+
+        matches.forEach(function (val) {
+            var div = document.createElement('div');
+            div.id = `${name}${val}rad`;
+            wrapper.appendChild(div);
+            var input = document.createElement('input');
+            input.id = `${name}${val}input`;
+            var label = document.createElement('label');
+            label.id = `${name}${val}label`;
+            var labeltext = document.createTextNode(`${val}`);
+
+            label.appendChild(labeltext);
+            div.appendChild(input);
+            div.appendChild(label);
+            
+            div.setAttribute("class", "form-check form-check-inline");
+
+            input.setAttribute("type", "radio");
+            input.setAttribute("class", "btn-check");
+            input.setAttribute("name", `${name}`);
+            input.setAttribute("autocomplete", "off");
+            input.setAttribute("value", `${val}`);
+
+            label.setAttribute("class", "btn btn-lg btn-outline-primary");
+            label.setAttribute("for", input.id);
+            
+
+        });
+        };
+    
+        var buttonD = document.createElement('div');
+        buttonD.id = "button_wrap";
+        form.appendChild(buttonD);
+
+        var button = document.createElement('button');
+        button.id = "sub_button";
+        
+        var buttonText = document.createTextNode("Submit");
+        button.appendChild(buttonText);
+        buttonD = document.getElementById("button_wrap");
+
+        buttonD.setAttribute("class","d-grid gap-2 col-12 mx-auto")
+        buttonD.appendChild(button);
+        
+        var button = document.getElementById("sub_button");
+        button.setAttribute("class", "btn btn-primary btn-lg");
+        button.setAttribute("type", "submit");
+        button.setAttribute("style", "margin-bottom:50px;margin-top:30px;");
+    
+    </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+
+    
+</body>
+</html>
