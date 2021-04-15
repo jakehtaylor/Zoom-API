@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template, request, url_for, abort, jso
 import os
 import pandas as pd
 import numpy as np
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz, process
 from statistics import mean
 import re
 
@@ -251,3 +251,70 @@ def about():
 def download_file():
     path = "testing+development/DEMO-FILE-v1.0.xlsx"
     return send_file(path, as_attachment=True)
+
+@app.route("/registration", methods=['POST'])
+def reg_check():
+
+    files = request.files.getlist("file")
+    for f in files:
+        filename = f.filename
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                abort(400)
+        
+        if file_ext == '.csv':
+            try:
+                zoom = pd.read_csv(f, 
+                        header=2, 
+                        usecols=['Participant', 'Join Time', 'Leave Time'])
+                participants = set(zoom['Participant'].to_list())
+            except ValueError:
+                reg = pd.read_csv(f)
+        elif file_ext == '.xlsx':
+            try:
+                zoom = pd.read_excel(f, header=3, 
+                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'], engine='openpyxl')
+                participants = set(zoom['Participant'].to_list())
+            except ValueError:
+                reg = pd.read_excel(f, engine='openpyxl')
+
+    firstLast = False
+
+    for col in reg.columns:
+            if re.search('name', col.lower()):
+                if re.search('first', col.lower()):
+                    firsts = col
+                    firstLast = True
+                elif re.search('last', col.lower()):
+                    lasts = col
+                else:
+                    names = set(reg[col].to_list())
+            elif re.search('participant', col.lower()):
+                names = set(reg[col].to_list())
+
+    if firstLast:
+        reg['Name'] = reg[firsts] + ' ' + reg[lasts]
+        regNames = set(reg['Name'].to_list())
+        
+   
+    allMatches = {}
+
+    for p in participants:
+        allMatches[p] = []
+        matches = process.extract(p, regNames, limit=4)
+        for m in matches:
+            allMatches[p].append(m[0])
+
+       
+    return redirect(url_for('regMatching', mDict=allMatches))
+    
+
+@app.route('/matching', methods=['GET'])
+def regMatching():
+    return render_template('reg_doc-check.html', mDict=request.args.get('mDict'))
+
+@app.route('/matching', methods=['POST'])
+def gen_file():
+    form = request.form.to_dict()
+    return render_template('json_download.html', replace=form)
