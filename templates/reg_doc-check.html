@@ -30,7 +30,7 @@
         </div>
     </nav>
     
-    <div class="d-grid gap-2 col-10 mx-auto">
+    <div class="d-grid gap-2 col-11 mx-auto">
         <form id='matchForm' method="POST" action="/matching">
         </form>
     </div>
@@ -90,11 +90,17 @@
             input.setAttribute("name", `${name}`);
             input.setAttribute("autocomplete", "off");
             input.setAttribute("value", `${val}`);
+            input.onclick = function() {
+                    var cdiv = document.getElementById(`${input.name}Cancelrad`)
+                    cdiv.setAttribute("style", "display:block;")
+                };
 
             label.setAttribute("class", "btn btn-lg btn-outline-primary");
             label.setAttribute("for", input.id);
-            
 
+            if (val == 'Cancel') {
+              div.setAttribute("style", "display:none");
+            };
         });
         };
     

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name Check</title>
+    <title>Cleaning</title>
     <link href="../static/css/style.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto+Slab:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -38,10 +38,11 @@
           for the event, and out of the <strong class="text-emph">234</strong> participants, <strong class="text-emph">144</strong> used a zoom username that <i>did not match</i>
           their registration name, and <strong class="text-emph">28</strong> did not match with <i>any</i> registered name. That leaves 62 
           people who logged into the zoom meeting with the correct username,  <strong class="text-emph"><i> just 26% </i></strong>  of the participant
-          pool.</p>
+          pool. That's why I developed the two-part Zoom Analytics Auto-cleaning service.</p>
 
-          <p> That's why I developed the Zoom Analytics Auto-cleaning service. The service uses the combination of 
-            3 different <a href="https://pypi.org/project/fuzzywuzzy/">Levenshtein</a> ratios: simple ratio, partial ratio, and token set ratio
+          <h2> <strong> Zoom Analytics Auto-cleaning (pt. 1) </strong></h2>
+
+          <p> The first part uses a combination of 3 different <a href="https://pypi.org/project/fuzzywuzzy/">Levenshtein</a> ratios: simple ratio, partial ratio, and token set ratio
             to flag pairs of usernames that might have been used by the same participant. Common examples are <strong class="text-emph">JOHN DOE</strong> / <strong class="text-emph">John Doe</strong>, 
             <strong class="text-emph">john.doe</strong> / <strong class="text-emph">John Doe</strong>, <strong class="text-emph">John D</strong> / <strong class="text-emph">John Doe</strong>, 
             and <strong class="text-emph">Doe John</strong> / <strong class="text-emph">John Doe</strong>.</p>
@@ -56,9 +57,9 @@
 
     <div class="d-grid gap-2 col-6 mx-auto">
       <div class="text-chunk">
-          <h2> <strong> Using Zoom Analytics Auto-cleaning </strong></h2>
+          <h3> <strong> Using Zoom Analytics Auto-cleaning (pt. 1) </strong></h3>
           <ol>
-            <li>Upload<sup>*</sup> the log file you want to clean using the form at the bottom of the page
+            <li>Upload<sup>*</sup> the log file you want to clean using the form at the bottom of these instructions
             and click <strong>Auto-clean</strong>.</li>
             <li>After the check finishes (it will take a little while) You'll be redirected to a page with two form sections<sup>**</sup>, the first section will contain every
               pair of similar usernames, with a radio input group allowing you to make the substitution in either direction. </li>
@@ -122,6 +123,64 @@
                     <input type="file" class="form-control" id="ipncg4" aria-describedby="ipncg4" aria-label="Upload" name="file" accept=".csv, .xlsx">
                     <input class="btn btn-primary" type="submit" value="Auto-clean" id="ipncg4">
                 </div>
+        </form>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <div class="text-chunk">
+      <h2> <strong> Zoom Analytics Auto-cleaning (pt. 2) </strong></h2>
+        <p>The second part of the cleaning service deals with discrepancies between the name a participant uses for the duration
+          of the Zoom meeting, and the name they used to register for the event being hosted over Zoom (if such a registration exists).
+          When a registration file (.csv or .xlsx, must contain a column whose title contains "Name" or "Participant", or two separate
+          columns titled "First Name" and "Last Name", the detection for these names is not case-sensitive) is uploaded together with a Zoom 
+          Analytics table, which can be downloaded from the Metrics page (generated when you submit files to the home page) the app will find every unique name 
+          in the Zoom data file, and present to the user the four most similar names found in the registration file to select from.
+        </p>
+      </div>
+    </div>
+
+    <div class="d-grid gap-2 col-7 mx-auto">
+      <div class="text-chunk">
+        <h3> <strong> Using Zoom Analytics Auto-cleaning (pt. 2) </strong></h3>
+        <ol>
+          <li><strong>Upload</strong><sup>*</sup> your event registration file and the corresponding Zoom data file from 
+            the same folder using the form at the bottom of these instructions, and click <strong>"Match With Registration"</strong>.</li>
+          <li>You'll be taken to a page containing a cell like the one below for each name in your Zoom data</li>
+          <div class="wrap">
+            <h4>John Doe</h4>
+            <div class="form-check form-check-inline">
+              <input id="regex1" type="radio" class="btn-check" name="JOHNDOE" autocomplete="off">
+              <label class="btn btn-lg btn-outline-primary" for="regex1">Johnathan Doe</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input id="regex2" type="radio" class="btn-check" name="JOHNDOE" autocomplete="off">
+              <label class="btn btn-lg btn-outline-primary" for="regex2">John Smith</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input id="regex3" type="radio" class="btn-check" name="JOHNDOE" autocomplete="off">
+              <label class="btn btn-lg btn-outline-primary" for="regex3">Ron Lawe</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input id="regex4" type="radio" class="btn-check" name="JOHNDOE" autocomplete="off">
+              <label class="btn btn-lg btn-outline-primary" for="regex4">Joan Heidenberg</label>
+            </div>
+          </div>
+          <li><strong>Select</strong> the correct match for each name, or nothing if no matches are present.</li>
+          <li>Click the <strong>Submit</strong> button at the bottom of the page once you've
+            selected and inputted all of your desired changes.</li>
+            <li>You'll be redirected to a page with a link to <strong>download</strong> a .json data file that contains the information
+              the program needs to make all of your selected substitutions. <strong>Save</strong> this file into the same folder
+              that contains your zoom logs and registration.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="d-grid gap-2 col-6 mx-auto"  id="reg_upload">
+        <form method="POST" action="/registration" enctype="multipart/form-data" style="vertical-align: bottom;">
+                <div class="input-group">
+                    <input type="file" class="form-control form-control-lg " id="inputGroupFile05" aria-describedby="inputGroupFileAddon05" aria-label="Upload" name="file" accept=".csv, .xlsx" multiple="">
+                    <input class="btn btn-primary" type="submit" value="Match with Registration" id="inputGroupFileAddon05">
+                  </div>
         </form>
     </div>
 

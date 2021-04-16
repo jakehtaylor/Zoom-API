@@ -205,12 +205,30 @@
                     <li> In the pop-up file selection window, navigate into the folder housing your .csv zoom logs and the 
                         .json cleaning instructions, and <strong>select both files</strong>. Click <strong>Open</strong> to upload<sup>**</sup> the two files.</li>
                     <li> Click <strong>Generate Metrics</strong>.</li>
+                    <li> The table and visualizations on the Metrics page can all be <strong>downloaded</strong></li>
+                    <li> If you have a <strong> registration file</strong> for your Zoom event, <strong> download</strong>
+                            the table from the metrics page, and <strong>upload<sup>**</sup></strong> that file along with your registration
+                            to part 2 of <a href="/name-check">Zoom Analytics Auto-Cleaning</a> and follow the instructions to generate 
+                            another .json cleaning file.</li>
+                    <li> Finally, <strong>Upload<sup>**</sup></strong> your downloaded Zoom Analytics table, your event registration file, and
+                            your match_registration.json cleaning file using the form below to generate and download a <strong> Master File</strong>.
+                    </li>
                 </ol>
+
 
             <p class="ast-note"> <sup>**</sup>This application does not save any user-uploaded files into server storage.
                         When you upload a file, the file is read for the necessary information and lost upon
                         redirection.</p>
         </div>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto"  id="merge_upload">
+        <form method="POST" action="/merge" enctype="multipart/form-data" style="vertical-align: bottom;">
+                <div class="input-group">
+                    <input type="file" class="form-control form-control-lg " id="inputGroupFile06" aria-describedby="inputGroupFileAddon06" aria-label="Upload" name="file" accept=".csv, .xlsx, .json" multiple="">
+                    <input class="btn btn-primary" type="submit" value="Merge" id="inputGroupFileAddon06">
+                  </div>
+        </form>
     </div>
 
     <footer class="bg-dark text-center text-white">
