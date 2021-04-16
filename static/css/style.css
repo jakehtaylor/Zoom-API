@@ -1,3 +1,5 @@
+
+
 .nav-link {
     font-family: 'Josefin sans', sans-serif;
     font-size: 24px;
@@ -23,6 +25,7 @@
     height: auto;
     position: relative;
     right:18px;
+
 }
 
 .ex-circle {
@@ -52,7 +55,6 @@ table {
     border-left: 7px blue solid;
     border-right: 7px blue solid;
     border-bottom: 7px blue solid; 
-    width:100%;
 }
 
 tr {
@@ -61,7 +63,7 @@ tr {
 }
 
 td~td {
-    width: 10%;
+    width: 10%
 }
 
 #col-headers .nav-item:last-child {
@@ -174,8 +176,15 @@ footer {
 
 .text-chunk h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    margin-top: 25px;
     font-family: 'Roboto', serif;
+}
+
+.text-chunk h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Roboto Slab', sans-serif;
 }
 
 .text-chunk li strong {
@@ -213,6 +222,77 @@ sup {
 #dl-container {
     margin-top: 60px;
 }
+
+#matchForm {
+    margin-top: 35px;
+}
+
+#matchForm h4 {
+    position: relative;
+    top:8px;
+    margin-right:40px;
+
+}
+
+#matchForm .wrap{
+    display: flex;
+    margin-top: 30px;
+
+}
+
+.wrap {
+    display: flex;
+    margin-top:10px;
+    padding: 20px;
+}
+
+.wrap:hover{
+   background-color: rgb(248, 248, 248);
+}
+
+#matchForm .form-check-inline{
+    font-family: 'Roboto', serif;
+}
+
+
+#mergetable thead th{
+    top: 0;
+    position:sticky;
+
+}
+#mergetable table {
+    border:none;
+    padding: 10px;
+}
+
+#mergetable {
+    border: 7px rgb(206, 206, 206) solid;
+}
+th:after,
+th:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+th:after {
+  bottom: -1px;
+  border-bottom: 1px solid blue;
+}
+
+#tableDL2 {
+    margin-bottom: 40px;
+}
+
+#mtHeader {
+    margin-top: 35px;
+    text-align: center;
+    margin-bottom: 0px;
+    font-family: 'Roboto', serif;
+    padding: 10px;
+}
+
 
 @keyframes scaleIn {
     from {
