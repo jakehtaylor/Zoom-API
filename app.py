@@ -20,6 +20,7 @@ def home():
 def upload_files():
     
     clean_file = False
+    changes = []
     files = request.files.getlist("file")
 
     for f in files:
@@ -31,17 +32,18 @@ def upload_files():
         
         if file_ext == '.xlsx':
             df = pd.read_excel(f, header=3, 
-                    usecols=['Participant', 'Join Time', 'Leave Time'],engine='openpyxl')
+                    usecols=['Participant', 'Join Time', 'Leave Time'], engine='openpyxl')
         elif file_ext == '.csv':
             df = pd.read_csv(f,header=2, 
                     usecols=['Participant', 'Join Time', 'Leave Time'])
         elif file_ext == '.json':
-            changes = json.load(f)
+            changes.append(json.load(f))
             clean_file = True
 
     if clean_file:
-        for key in changes.keys():
-            df.replace({key : changes[key]}, inplace=True)
+        for ch in changes:
+            for key in ch.keys():
+                df.replace({key : ch[key]}, inplace=True)
 
     df['Leave Time'] = [str(x)[0:8] for x in df['Leave Time']]
 
@@ -158,14 +160,12 @@ def upload_files():
     peak_time = Times_formatted[Active.index(max(Active))]
     peak_time = peak_time[:-5] + ":" + peak_time[-5:]
 
-
     metrics = {
-        'tables' : [jal_display.to_html(header=False,index=False, classes="table table-hover table-light table-responsive"), jal_display.to_json(orient="values")],
+        'tables' : [jal_display.to_html(header=False,index=False, classes="table table-hover table-light"), jal_display.to_json(orient="values")],
         'graphs' : [[Times_formatted, Active], [Times_formatted, Cumulative]],
         'stats': [first_hour, last_hour, max(Cumulative), max(Active), peak_time, Mean_att]
     }
     
-
     return render_template('metrics.html', metrics=metrics)
 
 
@@ -185,7 +185,7 @@ def nameCheck():
     
     if file_ext == '.xlsx':
         df = pd.read_excel(uploaded_file, header=3, 
-                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'],engine='openpyxl')
+                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'], engine='openpyxl')
     else:
         df = pd.read_csv(uploaded_file,header=2, 
                    usecols=['Participant', 'Join Time', 'Leave Time', 'Location'])
@@ -196,7 +196,7 @@ def nameCheck():
     for n1 in names:
         if not (n1.replace(" ", "")).isalpha() or n1.replace(" ", "").lower() == n1:
             if re.match('[A-Za-z]+[ ]{1}[A-Za-z]+[-][A-Za-z]+', n1) and n1.count(' ') == 1:
-                 pass
+                pass
             elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1}\.{1}[ ]{1}[A-Za-z]+', n1) and n1.count(' ') == 2:
                 pass
             elif re.match('[A-Za-z]+[ ]{1}[A-Za-z]{1,2}[\']{1}[A-Za-z]+', n1) and n1.count(' ') == 1:
@@ -239,7 +239,7 @@ def clean_file():
                 form_edited[vsplit[0]] = vsplit[1]
             else:
                 form_edited[k] = form[k]
-    return render_template('json_download.html', replace=form_edited)
+    return render_template('json_download.html', replace=form_edited, filename="zoom_name_changes.json")
     
 
 @app.route("/about")
@@ -251,6 +251,7 @@ def about():
 def download_file():
     path = "testing+development/DEMO-FILE-v1.0.xlsx"
     return send_file(path, as_attachment=True)
+
 
 @app.route("/registration", methods=['POST'])
 def reg_check():
@@ -266,15 +267,14 @@ def reg_check():
         if file_ext == '.csv':
             try:
                 zoom = pd.read_csv(f, 
-                        header=2, 
-                        usecols=['Participant', 'Join Time', 'Leave Time'])
+                        usecols=['Participant', 'Joined', 'Left', 'Time'])
                 participants = set(zoom['Participant'].to_list())
             except ValueError:
                 reg = pd.read_csv(f)
         elif file_ext == '.xlsx':
             try:
-                zoom = pd.read_excel(f, header=3, 
-                   usecols=['Participant', 'Join Time', 'Leave Time', 'Location'], engine='openpyxl')
+                zoom = pd.read_excel(f,
+                   usecols=['Participant', 'Joined', 'Left', 'Time'], engine='openpyxl')
                 participants = set(zoom['Participant'].to_list())
             except ValueError:
                 reg = pd.read_excel(f, engine='openpyxl')
@@ -305,6 +305,7 @@ def reg_check():
         matches = process.extract(p, regNames, limit=4)
         for m in matches:
             allMatches[p].append(m[0])
+        allMatches[p].append('Cancel')
 
        
     return redirect(url_for('regMatching', mDict=allMatches))
@@ -316,5 +317,71 @@ def regMatching():
 
 @app.route('/matching', methods=['POST'])
 def gen_file():
+    form_edited = {}
     form = request.form.to_dict()
-    return render_template('json_download.html', replace=form)
+    for k in form.keys():
+        if form[k] != "Cancel":
+            form_edited[k] = form[k]
+    return render_template('json_download.html', replace=form_edited, filename="match_registration.json")
+
+
+@app.route('/merge', methods=['GET'])
+def mergeHome():
+    return render_template('merge.html')
+
+@app.route('/merge', methods=['POST'])
+def merge():
+    files = request.files.getlist("file")
+    for f in files:
+        filename = f.filename
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+                abort(400)
+        
+        if file_ext == '.csv':
+            try:
+                zoom = pd.read_csv(f, 
+                        usecols=['Participant', 'Joined', 'Left', 'Time'])
+                participants = set(zoom['Participant'].to_list())
+            except ValueError:
+                reg = pd.read_csv(f)
+        elif file_ext == '.xlsx':
+            try:
+                zoom = pd.read_excel(f,
+                   usecols=['Participant', 'Joined', 'Left', 'Time'], engine='openpyxl')
+                participants = set(zoom['Participant'].to_list())
+            except ValueError:
+                reg = pd.read_excel(f, engine='openpyxl')
+        elif file_ext == '.json':
+            changes = json.load(f)
+
+    for key in changes.keys():
+        zoom.replace({key : changes[key]}, inplace=True)
+
+    firstLast = False
+
+    for col in reg.columns:
+            if re.search('name', col.lower()):
+                if re.search('first', col.lower()):
+                    firsts = col
+                    firstLast = True
+                elif re.search('last', col.lower()):
+                    lasts = col
+                else:
+                    colName = col
+            elif re.search('participant', col.lower()):
+                colName = col
+
+    if firstLast:
+        reg['Participant'] = reg[firsts] + ' ' + reg[lasts]
+    else:
+        reg.rename(columns={colName : 'Participant'}, inplace=True)
+
+    master = zoom.merge(reg, how="outer", on='Participant')
+
+    master_display = master.to_html(index=False, classes="table table-hover table-light table-responsive")
+
+    return render_template('display_merge.html', table=master_display, data=master.to_json(orient="split"))
+
+    
