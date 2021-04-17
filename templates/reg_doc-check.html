@@ -53,8 +53,18 @@
 
 
   <script>
-    var data = {{ mDict|safe }};
-    var names = {{ nameRef|safe }};
+    var mDstr = "{{ mD|safe }}";
+    var rows = mDstr.split(',/');
+    var data = {};
+
+    rows.forEach(function (row) {
+      split = row.split(',')
+      data[split[0]] = split.slice(1);
+    });
+
+    var string = " {{ nR|safe }} ";
+    var names = string.split(',');
+
     
     for (const [name, matches] of Object.entries(data)) {
         console.log(name, matches);
