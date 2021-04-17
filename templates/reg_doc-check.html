@@ -54,7 +54,7 @@
 
   <script>
     var data = {{ mDict|safe }};
-    console.log(data);
+    var names = {{ nameRef|safe }};
     
     for (const [name, matches] of Object.entries(data)) {
         console.log(name, matches);
@@ -71,13 +71,13 @@
 
         matches.forEach(function (val) {
             var div = document.createElement('div');
-            div.id = `${name}${val}rad`;
+            div.id = `${name}${names[val]}rad`;
             wrapper.appendChild(div);
             var input = document.createElement('input');
-            input.id = `${name}${val}input`;
+            input.id = `${name}${names[val]}input`;
             var label = document.createElement('label');
-            label.id = `${name}${val}label`;
-            var labeltext = document.createTextNode(`${val}`);
+            label.id = `${name}${names[val]}label`;
+            var labeltext = document.createTextNode(`${names[val]}`);
 
             label.appendChild(labeltext);
             div.appendChild(input);
@@ -89,7 +89,7 @@
             input.setAttribute("class", "btn-check");
             input.setAttribute("name", `${name}`);
             input.setAttribute("autocomplete", "off");
-            input.setAttribute("value", `${val}`);
+            input.setAttribute("value", `${names[val]}`);
             input.onclick = function() {
                     var cdiv = document.getElementById(`${input.name}Cancelrad`)
                     cdiv.setAttribute("style", "display:block;")
@@ -98,7 +98,7 @@
             label.setAttribute("class", "btn btn-lg btn-outline-primary");
             label.setAttribute("for", input.id);
 
-            if (val == 'Cancel') {
+            if (names[val] == 'Cancel') {
               div.setAttribute("style", "display:none");
             };
         });
