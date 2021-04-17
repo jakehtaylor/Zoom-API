@@ -24,3 +24,6 @@ https://zoom-analytics-api.herokuapp.com/
 
 ### v2.0 4/16/21 ### 
 <ul><li>New service matches zoom logs with event registration and produces merged data</li></ul>
+
+### v2.1 4/17/21 ### 
+<ul><li>Changed format of registration matching data in URL to fix HTTP 414 Error</li></ul>
