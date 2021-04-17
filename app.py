@@ -289,31 +289,33 @@ def reg_check():
                 elif re.search('last', col.lower()):
                     lasts = col
                 else:
-                    names = set(reg[col].to_list())
+                    names = list(set(reg[col].to_list()))
             elif re.search('participant', col.lower()):
-                names = set(reg[col].to_list())
+                names = list(set(reg[col].to_list()))
 
     if firstLast:
         reg['Name'] = reg[firsts] + ' ' + reg[lasts]
-        regNames = set(reg['Name'].to_list())
+        names = list(set(reg['Name'].to_list()))
         
+    names.append('Cancel')
    
     allMatches = {}
 
     for p in participants:
         allMatches[p] = []
-        matches = process.extract(p, regNames, limit=4)
+        matches = process.extract(p, names, limit=4)
         for m in matches:
-            allMatches[p].append(m[0])
-        allMatches[p].append('Cancel')
+            allMatches[p].append(names.index(m[0]))
+        allMatches[p].append(len(names)-1)
 
+    print(names)
        
-    return redirect(url_for('regMatching', mDict=allMatches))
+    return redirect(url_for('regMatching', mDict=allMatches, nameRef=names))
     
 
 @app.route('/matching', methods=['GET'])
 def regMatching():
-    return render_template('reg_doc-check.html', mDict=request.args.get('mDict'))
+    return render_template('reg_doc-check.html', mDict=request.args.get('mDict'), nameRef=request.args.getlist('nameRef'))
 
 @app.route('/matching', methods=['POST'])
 def gen_file():
@@ -385,3 +387,4 @@ def merge():
     return render_template('display_merge.html', table=master_display, data=master.to_json(orient="split"))
 
     
+
