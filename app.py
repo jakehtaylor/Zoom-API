@@ -297,7 +297,7 @@ def reg_check():
         reg['Name'] = reg[firsts] + ' ' + reg[lasts]
         names = list(set(reg['Name'].to_list()))
         
-    names.append('Cancel')
+    
    
     allMatches = {}
 
@@ -306,16 +306,28 @@ def reg_check():
         matches = process.extract(p, names, limit=4)
         for m in matches:
             allMatches[p].append(names.index(m[0]))
-        allMatches[p].append(len(names)-1)
+        allMatches[p].append(len(names))
 
-    print(names)
-       
-    return redirect(url_for('regMatching', mDict=allMatches, nameRef=names))
+    names.append('Cancel')
+
+    string=''
+    for n in names:
+        string+= n+','
+
+
+    matchString = ''
+    for p in participants:
+        matchString+=p+','
+        for m in allMatches[p]:
+            matchString+=str(m)+','
+        matchString+='/'
+    
+    return redirect(url_for('regMatching', mD=matchString, nR=string))
     
 
 @app.route('/matching', methods=['GET'])
 def regMatching():
-    return render_template('reg_doc-check.html', mDict=request.args.get('mDict'), nameRef=request.args.getlist('nameRef'))
+    return render_template('reg_doc-check.html', mD=request.args.get('mD'), nR=request.args.get('nR'))
 
 @app.route('/matching', methods=['POST'])
 def gen_file():
