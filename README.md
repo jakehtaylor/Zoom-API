@@ -18,5 +18,9 @@ https://zoom-analytics-api.herokuapp.com/
 
 
 
-### V1.1 4/14/21 ### 
+### v1.1 4/14/21 ### 
 <ul><li>Table on the metrics page can now be downloaded</li></ul>
+
+
+### v2.0 4/16/21 ### 
+<ul><li>New service matches zoom logs with event registration and produces merged data</li></ul>
